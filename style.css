@@ -1,0 +1,90 @@
+body {
+  background: #e6e0d8;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Times New Roman", serif;
+}
+
+.scene {
+  perspective: 1400px;
+}
+
+.letter {
+  position: relative;
+  width: 320px;
+  height: 220px;
+  cursor: pointer;
+}
+
+/* nếp gấp */
+.fold {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(#e8e2d9, #d8d1c7);
+  transition: transform 1s ease;
+  z-index: 3;
+}
+
+.fold-top {
+  top: 0;
+  transform-origin: top;
+}
+
+.fold-middle {
+  bottom: 0;
+  transform-origin: bottom;
+}
+
+/* giấy */
+.paper {
+  position: absolute;
+  width: 95%;
+  height: 190px;
+  background: #fdfaf4;
+  left: 2.5%;
+  bottom: 10px;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.15),
+    inset 0 0 25px rgba(0,0,0,0.03);
+  transform: translateY(70px) rotateZ(-0.8deg);
+  transition: transform 1.2s ease;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* chữ */
+.text {
+  opacity: 0;
+  padding: 22px;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #2b2b2b;
+  transition: opacity 1.5s ease;
+}
+
+/* animation theo bước */
+.letter.step-1 .fold-top {
+  transform: rotateX(-115deg);
+}
+
+.letter.step-2 .fold-middle {
+  transform: rotateX(110deg);
+}
+
+.letter.step-3 .paper {
+  transform: translateY(-40px) rotateZ(0.6deg);
+}
+
+.letter.step-4 .text {
+  opacity: 1;
+}
+
+.hint {
+  margin-top: 20px;
+  color: #666;
+  font-style: italic;
+}
