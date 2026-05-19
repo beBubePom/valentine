@@ -1,90 +1,784 @@
 body {
-  background: #e6e0d8;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: "Times New Roman", serif;
+
+    margin: 0;
+
+    padding: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    height: 100vh;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    color: #f5ebe0;
+
+   
+
+    /* THIẾT LẬP ẢNH NỀN */
+
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/different-hearts-with-gift-boxes_23-2148009364.jpg');
+
+    background-size: cover;      /* Phủ kín toàn màn hình */
+
+    background-position: center; /* Căn giữa ảnh */
+
+    background-attachment: fixed; /* Giữ ảnh đứng yên khi cuộn */
+
+    background-repeat: no-repeat;
+
 }
 
-.scene {
-  perspective: 1400px;
+/* Responsive cho Điện thoại */
+@media (max-width: 768px) {
+    /* 1. Xoay card thành chiều dọc */
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        width: 95%;
+        max-height: 90vh; /* Giới hạn chiều cao để không bị tràn màn hình */
+        overflow-y: auto; /* Cho phép cuộn bên trong card nếu nội dung dài */
+    }
+
+    /* 2. Chỉnh lại phần chữ */
+    .text-section {
+        padding-left: 0 !important; /* Bỏ khoảng trống bên trái cho con vịt */
+        padding-right: 0;
+        text-align: center;
+        order: 2; /* Đẩy chữ xuống dưới ảnh */
+        margin-top: 20px;
+    }
+
+    .text-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .text-section p {
+        font-size: 1rem;
+    }
+
+    /* 3. Chỉnh lại khung ảnh bé Bư */
+    .image-frame {
+        order: 1; /* Cho ảnh lên đầu tiên */
+        margin-bottom: 20px;
+    }
+
+    .frame {
+        width: 200px; /* Thu nhỏ khung ảnh trên điện thoại */
+        height: 280px;
+    }
+
+    /* 4. Thu nhỏ con vịt để không che chữ */
+    .duck-wrapper {
+        position: relative; /* Chuyển từ absolute sang relative để nó nằm dưới cùng */
+        left: 0;
+        bottom: 0;
+        margin-top: 20px;
+        order: 3;
+        width: 80px;
+        height: 120px;
+    }
+
+    .duck-frame {
+        width: 60px;
+    }
+
+    /* 5. Chỉnh lại trình phát nhạc cho gọn */
+    .music-player {
+        width: 180px; /* Thu hẹp chiều rộng */
+        left: 50%;
+        transform: translateX(-50%); /* Căn giữa trình phát nhạc ở phía trên */
+        top: 10px;
+        padding: 10px;
+    }
+
+    .album-art {
+        width: 40px;
+        height: 40px;
+    }
+
+    .music-info {
+        font-size: 0.7rem;
+    }
 }
 
-.letter {
-  position: relative;
-  width: 320px;
-  height: 220px;
-  cursor: pointer;
+/* Tìm đến class .card-container và sửa align-items */
+
+.card-container {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    /* Giảm số này xuống, ví dụ từ 60px xuống 30px hoặc 40px */
+
+    padding: 30px 60px 60px 60px; /* Trên - Phải - Dưới - Trái */
+
+   
+
+    /* Các dòng khác giữ nguyên... */
+
+    position: relative;
+
+    background-color: #5d4037;
+
+    border-radius: 20px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+    max-width: 800px;
+
+    width: 90%;
+
 }
 
-/* nếp gấp */
-.fold {
-  position: absolute;
-  width: 100%;
-  height: 50%;
-  background: linear-gradient(#e8e2d9, #d8d1c7);
-  transition: transform 1s ease;
-  z-index: 3;
+
+/* Hoặc nếu bạn muốn chính xác hơn cho phần chữ */
+
+.text-section {
+
+    flex: 1;
+
+    padding-right: 20px;
+
+    margin-top: 20px; /* Điều chỉnh con số này để nâng/hạ dòng text tùy ý */
+
 }
 
-.fold-top {
-  top: 0;
-  transform-origin: top;
+
+
+.text-section h1 {
+
+    font-size: 2.5rem;
+
+    margin-bottom: 15px;
+
+    color: #d7ccc8;
+
 }
 
-.fold-middle {
-  bottom: 0;
-  transform-origin: bottom;
+
+
+.text-section p {
+
+    line-height: 1.6;
+
+    font-size: 1.1rem;
+
 }
 
-/* giấy */
-.paper {
-  position: absolute;
-  width: 95%;
-  height: 190px;
-  background: #fdfaf4;
-  left: 2.5%;
-  bottom: 10px;
-  box-shadow:
-    0 4px 12px rgba(0,0,0,0.15),
-    inset 0 0 25px rgba(0,0,0,0.03);
-  transform: translateY(70px) rotateZ(-0.8deg);
-  transition: transform 1.2s ease;
-  z-index: 1;
-  overflow: hidden;
+
+
+/* 1. Khối bao quanh để cố định vị trí cả cụm ở góc trái */
+
+.duck-wrapper {
+
+    position: absolute;
+
+    bottom: -10px;
+
+    left: -10px;
+
+    z-index: 15;
+
+    width: 150px;
+
+    height: 180px; /* Tăng chiều cao để chứa cả chữ phía trên */
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-end;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+
 }
 
-/* chữ */
-.text {
-  opacity: 0;
-  padding: 22px;
-  line-height: 1.6;
-  font-size: 16px;
-  color: #2b2b2b;
-  transition: opacity 1.5s ease;
+.duck-wrapper:hover {
+    opacity: 0.2; /* Mờ hẳn đi khi chạm vào để đọc chữ bên dưới */
 }
 
-/* animation theo bước */
-.letter.step-1 .fold-top {
-  transform: rotateX(-115deg);
+
+/* 2. Bong bóng lời thoại - ĐỨNG YÊN (vì không có animation) */
+
+.speech-bubble {
+
+    position: relative; /* Chuyển sang relative để nằm trên đầu vịt */
+
+    margin-bottom: 15px; /* Khoảng cách giữa chữ và vịt */
+
+    background-color: #f5ebe0;
+
+    color: #3d2b1f;
+
+    padding: 6px 15px;
+
+    border-radius: 12px;
+
+    font-size: 0.9rem;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+
 }
 
-.letter.step-2 .fold-middle {
-  transform: rotateX(110deg);
+
+
+/* Đuôi của bong bóng */
+
+.speech-bubble::after {
+
+    content: '';
+
+    position: absolute;
+
+    bottom: -8px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    border-left: 8px solid transparent;
+
+    border-right: 8px solid transparent;
+
+    border-top: 8px solid #f5ebe0;
+
 }
 
-.letter.step-3 .paper {
-  transform: translateY(-40px) rotateZ(0.6deg);
+
+
+/* 3. Khung chứa con vịt - CÓ ANIMATION NHÚN NHẢY */
+
+.duck-frame {
+
+    width: 120px;
+
+    height: 200px;
+
+    animation: duckBounce 2s ease-in-out infinite; /* Animation chỉ áp dụng tại đây */
+
+    transform-origin: bottom center;
+
 }
 
-.letter.step-4 .text {
-  opacity: 1;
+
+
+.duck-frame img {
+
+    width: 100%;
+
+    height: auto;
+
+    filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.3));
+
 }
 
-.hint {
-  margin-top: 20px;
-  color: #666;
-  font-style: italic;
+
+
+/* Hiệu ứng nhún nhảy cho vịt */
+
+@keyframes duckBounce {
+
+    0%, 100% {
+
+        transform: translateY(0) scale(1);
+
+    }
+
+    50% {
+
+        transform: translateY(-12px) scale(1.02);
+
+    }
+
 }
+
+/* Đảm bảo container có position relative để hoa bám theo */
+
+.card-container {
+
+    position: relative; /* Thêm dòng này vào class .card-container cũ */
+
+    /* ... các thuộc tính cũ giữ nguyên ... */
+
+}
+
+
+
+.frame {
+
+    width: 250px;
+
+    height: 350px;
+
+    border: 20px solid #a88f85; /* Màu viền khung */
+
+    background-color: #4e342e;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    position: relative;
+
+}
+
+
+
+.frame img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover; /* Để ảnh tự lấp đầy khung mà không bị méo */
+
+}
+
+
+
+.frame {
+
+    width: 250px;
+
+    height: 350px;
+
+    border: 15px solid #a88f85;
+
+    background-color: #4e342e;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+
+}
+
+
+
+.frame img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+
+
+/* Hiệu ứng mượt khi hiện chữ mới */
+
+@keyframes fadeIn {
+
+    from { opacity: 0; transform: translateX(-10px); }
+
+    to { opacity: 1; transform: translateX(0); }
+
+}
+
+
+
+
+
+/* Thanh nhạc ở góc trái */
+
+.music-player {
+
+    position: fixed;
+
+    top: 20px;
+
+    left: 20px;
+
+    background: rgba(93, 64, 55, 0.8); /* Màu nâu cùng tone */
+
+    padding: 10px 15px;
+
+    border-radius: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 5px;
+
+    backdrop-filter: blur(5px);
+
+    border: 1px solid #a88f85;
+
+    z-index: 1000;
+
+    width: 150px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+
+}
+
+
+
+.music-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    width: 100%;
+
+    font-size: 0.75rem;
+
+    font-weight: bold;
+
+    color: #f5ebe0;
+
+}
+
+
+
+.music-info marquee {
+
+    flex: 1;
+
+}
+
+
+
+.music-controls {
+
+    display: flex;
+
+    gap: 15px;
+
+}
+
+
+
+.ctrl-btn {
+
+    background: none;
+
+    border: none;
+
+    color: #f5ebe0;
+
+    cursor: pointer;
+
+    font-size: 1.2rem;
+
+    transition: transform 0.2s;
+
+}
+
+
+
+.ctrl-btn:hover {
+
+    transform: scale(1.2);
+
+    color: #d7ccc8;
+
+}
+
+
+
+/* Nút trang trí thì mờ hơn chút */
+
+.decoration {
+
+    opacity: 0.5;
+
+    cursor: default;
+
+}
+
+
+
+/* Layout sắp xếp ảnh và nút nằm ngang hàng */
+
+.player-layout {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    margin-top: 5px;
+
+}
+
+
+
+/* Thanh nhạc tổng thể */
+
+.music-player {
+
+    position: fixed;
+
+    top: 20px;
+
+    left: 20px;
+
+    background: rgba(93, 64, 55, 0.85); /* Màu nâu đặc trưng */
+
+    padding: 15px 20px;
+
+    border-radius: 50px; /* Bo tròn cực đại kiểu guns.lol */
+
+    display: flex;
+
+    flex-direction: column;
+
+    backdrop-filter: blur(8px);
+
+    border: 1px solid #a88f85;
+
+    z-index: 1000;
+
+    width: 240px; /* Rộng hơn để chứa đĩa to */
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+
+}
+
+
+
+/* Thông tin bài hát */
+
+.music-info {
+
+    width: 100%;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    font-size: 0.8rem;
+
+    font-weight: bold;
+
+    color: #f8f7f7;
+
+    margin-bottom: 8px;
+
+}
+
+
+
+/* Layout ngang */
+
+.player-layout {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+}
+
+
+
+.album-art {
+
+    width: 60px;
+
+    height: 60px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    border: 3px solid #f5ebe0;
+
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+
+    flex-shrink: 0;
+
+    animation: rotateDisk 5s linear infinite;
+
+    animation-play-state: paused;
+
+   
+
+    /* Thêm 3 dòng này để làm khung chứa chuẩn */
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+
+.album-art img {
+
+    width: 100%;
+
+    height: 100%;
+
+    /* Ép ảnh vào giữa và phủ kín khung */
+
+    object-fit: cover;
+
+    object-position: center;
+
+}
+
+/* 2. Tạo Line bao quanh các nút Play, Pause, Next */
+
+.music-controls {
+
+    display: flex;
+
+    gap: 15px;
+
+    flex: 1;
+
+    justify-content: center;
+
+    align-items: center;
+
+   
+
+    /* ĐƯỜNG KẺ MỎNG BAO QUANH NÚT */
+
+    padding: 5px 15px;
+
+    border: 1px solid rgba(245, 235, 224, 0.3);
+
+    border-radius: 25px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+}
+
+
+
+/* Giữ nguyên kích thước đĩa nhạc to như ông muốn */
+
+.album-art {
+
+    width: 60px;
+
+    height: 60px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    border: 3px solid #f5ebe0;
+
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+
+    flex-shrink: 0;
+
+    animation: rotateDisk 5s linear infinite;
+
+    animation-play-state: paused;
+
+}
+
+
+
+.music-controls:hover {
+
+    border-color: rgba(96, 74, 50, 0.8);
+
+    box-shadow: 0 0 10px rgba(245, 235, 224, 0.2);
+
+    transition: all 0.3s ease;
+
+}
+
+
+
+
+
+/* Định dạng cho chữ trong màn hình chờ */
+
+.overlay-content p {
+
+    font-size: 2rem;           /* Tăng kích thước chữ (ông có thể chỉnh lên 2.5rem nếu muốn to hơn nữa) */
+
+    font-weight: bold;        /* Làm đậm chữ */
+
+    color: #f5ebe0;           /* Màu chữ sáng để nổi trên nền nâu */
+
+    text-align: center;       /* Căn giữa chữ */
+
+    letter-spacing: 2px;      /* Khoảng cách giữa các chữ rộng ra cho thoáng */
+
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Thêm bóng cho chữ để nhìn chuyên nghiệp hơn */
+
+   
+
+    /* Hiệu ứng nhấp nháy nhẹ để mời gọi bé Bư nhấn vào */
+
+    animation: pulse 1.5s infinite ease-in-out;
+
+}
+
+
+
+/* Định nghĩa hiệu ứng nhấp nháy */
+
+@keyframes pulse {
+
+    0% { transform: scale(1); opacity: 0.8; }
+
+    50% { transform: scale(1.05); opacity: 1; }
+
+    100% { transform: scale(1); opacity: 0.8; }
+
+}
+
+
+
+#particleCanvas {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    z-index: -1; /* Nằm dưới card */
+
+    pointer-events: none;
+
+    background: #3d2b1f; /* Màu nền gốc của ông */
+
+}
+
